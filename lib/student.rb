@@ -18,12 +18,26 @@ class Student
 
   def self.find_by_name(name)
     sql = <<-SQL
-    SELECT * 
+    SELECT *
     FROM students
     WHERE name = ?
     SQL
     row = DB[:conn].execute(sql, name).first
     self.new_from_db(row)
+  end
+
+  def self.count_all_students_in_grade_9
+    sql = <<-SQL
+    SELECT *
+    FROM students
+    WHERE grade = 9
+    SQL
+
+    rows = DB[conn:].execute(sql)
+
+    rows.map do |row|
+      self.new_from_db(row)
+    end
   end
 
   def save
